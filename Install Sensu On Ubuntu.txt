@@ -1,0 +1,212 @@
+>>wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
+>>sudo dpkg -i erlang-solutions_1.0_all.deb
+>>sudo apt-get update
+>>sudo apt-get install erlang
+>>sudo apt-get update
+>> erl
+You will be brought into the Erlang shell which resembles:
+
+Erlang/OTP 20 [erts-9.1] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:10] [hipe] [kernel-poll:false]
+
+Eshell V9.1  (abort with ^G)
+
+Press Ctrl+C twice to quit the Erlang shell.
+
+Install RabitMQ
+----------------
+>>echo "deb https://dl.bintray.com/rabbitmq/debian xenial main" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
+>>wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
+>>sudo apt-get update
+>>sudo apt-get install rabbitmq-server
+>>sudo systemctl start rabbitmq-server.service
+>>sudo systemctl enable rabbitmq-server.service
+>>sudo rabbitmqctl status
+>>sudo rabbitmqctl add_user admin password
+>>sudo rabbitmqctl set_user_tags admin administrator
+>>sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
+>>sudo rabbitmq-plugins enable rabbitmq_management
+>>sudo chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/
+>>invoke-rc.d rabbitmq-server status
+
+Redis Instalation
+------------------
+sudo apt-get update
+sudo apt-get upgrade
+>>sudo apt-get install redis-server
+>>sudo systemctl enable redis-server.service
+>>service redis-server status
+
+Install Sensu:
+--------------------
+>>wget -q https://sensu.global.ssl.fastly.net/apt/pubkey.gpg -O- | sudo apt-key add -
+>> . /etc/os-release && echo $VERSION
+#16.04.5 LTS (Xenial Xerus)
+>>export CODENAME="xenial"
+>>echo "deb     https://sensu.global.ssl.fastly.net/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/sensu.list
+>>sudo apt-get update
+>>sudo apt-get install sensu
+
+>> vim /etc/sensu/conf.d/client.json
+  {
+  "client": {
+    "name": "ubuntu-client",
+    "address": "127.0.0.1",
+    "environment": "development",
+    "subscriptions": [
+      "lnx"
+    ],
+    "socket": {
+      "bind": "127.0.0.1",
+      "port": 3030
+    }
+  }
+}
+
+>> vim /etc/sensu/conf.d/transport.json
+
+{
+  "transport": {
+    "name": "rabbitmq",
+    "reconnect_on_error": true
+  }
+}
+
+>> vim /etc/sensu/conf.d/api.json
+{
+  "api": {
+    "host": "localhost",
+    "bind": "0.0.0.0",
+    "port": 4567
+  }
+}
+
+>>sudo systemctl enable sensu-client
+>>sudo systemctl enable sensu-server
+>>sudo systemctl enable sensu-api
+>>sudo systemctl disable sensu-client
+>>sudo systemctl disable sensu-server
+>>sudo systemctl disable sensu-api
+>>sudo service sensu-client start
+>>sudo service sensu-client stop
+>>sudo service sensu-server start
+>>sudo service sensu-server stop
+>>sudo service sensu-api start
+>>sudo service sensu-api stop
+
+Uchiwa installation
+-------------------------
+>>wget -q https://sensu.global.ssl.fastly.net/apt/pubkey.gpg -O- | sudo apt-key add -
+>> . /etc/os-release && echo $VERSION
+##16.04.5 LTS (Xenial Xerus)
+>>export CODENAME="xenial"
+>>echo "deb     https://sensu.global.ssl.fastly.net/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/sensu.list
+>>sudo apt-get update
+>>sudo apt-get install uchiwa
+>> vim /etc/sensu/uchiwa.json
+{
+      "sensu": [
+            {
+          "name": "sensu",
+          "host": "localhost",
+          "port": 4567,
+          "timeout": 10
+            }
+          ],
+          "uchiwa": {
+            "host": "0.0.0.0",
+            "port": 8080,
+            "refresh": 10
+          }
+}
+
+>>sudo service uchiwa start
+
+
+Install Sensu Plugins
+===========================
+cd /opt/sensu/embedded/bin/
+sensu-install -p cpu-checks  
+sensu-install -p disk-checks  
+sensu-install -p memory-checks  
+sensu-install -p nginx  
+sensu-install -p process-checks  
+sensu-install -p load-checks  
+sensu-install -p vmstats  
+sensu-install -p mailer
+
+>> vim /etc/sensu/conf.d/check_cpu_linux.json
+{
+      "checks": {
+         "check-cpu-linux": {
+       "handlers": ["mailer"],
+       "command": "/opt/sensu/embedded/bin/check-cpu.rb -w 80 -c 90 ",
+       "interval": 60,
+       "occurrences": 5,
+          "subscribers": [ "lnx" ]
+       }
+         }
+}
+
+>>vim /etc/sensu/conf.d/check_memory_linux.json
+{
+      "checks": {
+        "check_memory_linux": {
+      "handlers": ["mailer"],
+         "command": "/opt/sensu/embedded/bin/check-memory-percent.rb -w 90 -c 95",
+      "interval": 60,
+      "occurrences": 5,
+      "subscribers": [ "lnx" ]
+        }
+      }
+}
+
+>>vim /etc/sensu/conf.d/check_disk_usage_linux.json
+{
+     "checks": {
+        "check-disk-usage-linux": {
+"handlers": ["mailer"],
+      "command": "/opt/sensu/embedded/bin/check-disk-usage.rb -w 80 -c 90",
+      "interval": 60,
+      "occurrences": 5,
+      "subscribers": [ "lnx" ]
+        }
+      }
+    }
+
+
+
+Enable the alert's:
+======================
+
+>>apt-get install postfix
+>>vim /etc/sensu/conf.d/handler_mail.json
+{
+          "handlers": {
+            "mailer": {
+          "type": "pipe",
+          "command": "/opt/sensu/embedded/bin/handler-mailer.rb"
+            }
+          }
+}
+
+>>vim /etc/sensu/conf.d/mailer.json
+{
+            "mailer": {
+      "admin_gui": "http://yoursensuserverip:8080/",
+            "mail_from": "alerts@powerupcloud.com",
+            "mail_to": "alerts@powerupcloud.com",
+            "smtp_address": "localhost",
+            "smtp_port": "",
+            "smtp_domain": "localhost"
+            }
+}
+
+>>service sensu-server restart
+>>sudo update-rc.d uchiwa defaults
+>>sudo systemctl enable sensu-client
+>>sudo systemctl enable sensu-server 
+>>sudo systemctl enable sensu-api
+>>sudo service sensu-client restart
+>>sudo service sensu-server restart
+>>sudo service sensu-api restart
+
