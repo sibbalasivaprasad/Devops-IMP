@@ -1,0 +1,12 @@
+>>apt-get update
+>>wget http://mirrors.estointernet.in/apache//ant/binaries/apache-ant-1.10.5-bin.zip
+>>apt-get install unzip
+>> mv apache-ant-1.10.5 /usr/local/ant
+>>sudo ln -s /usr/local/ant/ /usr/local/ant
+>>sudo vim /etc/profile.d/ant.sh
+export ANT_HOME=/usr/local/ant
+
+export PATH=${ANT_HOME}/bin:${PATH}
+>>source /etc/profile
+>>ant -version
+

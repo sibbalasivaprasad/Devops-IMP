@@ -1,0 +1,11 @@
+>>apt-get update
+>>wget http://mirrors.estointernet.in/apache/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.zip
+>>unzip apache-maven-3.6.0-bin.zip
+>>mv apache-maven-3.6.0 /usr/local/maven
+>>ln -s /usr/local/maven /usr/local/maven
+Edit the /etc/environment file and add the following environment variable:
+>>sudo vim /etc/profile.d/ant.sh
+export M2_HOME="/usr/local/maven"
+export PATH=${M2_HOME}/bin:${PATH}
+>>source /etc/profile
+>>mvn -version
