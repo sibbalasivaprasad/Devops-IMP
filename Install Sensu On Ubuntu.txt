@@ -210,3 +210,16 @@ Enable the alert's:
 >>sudo service sensu-server restart
 >>sudo service sensu-api restart
 
+
+
+
+if ARGV.first
+  str = ARGV.first
+  str = str.dup.force_encoding("BINARY") if str.respond_to? :force_encoding
+  if str =~ /\A_(.*)_\z/ and Gem::Version.correct?($1) then
+    version = $1
+    ARGV.shift
+  end
+end
+
+load Gem.activate_bin_path('sensu-plugins-cpu-checks', 'check-cpu.rb', version)

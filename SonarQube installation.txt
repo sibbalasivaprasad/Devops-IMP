@@ -1,0 +1,13 @@
+We need to install as a normal user. 
+it will not work for root users
+
+>>wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip
+>>unzip sonarqube-7.6.zip
+>>mv sonarqube-7.6 SonarQube
+>>cd /SonarQube/conf
+uncomment the port number under WEB SERVER part in "sonar.properties"
+>>vim sonar.properties
+sonar.web.port=9000
+>>cd /SonarQube/bin/linux-x86-64/
+to run server in backgroung we need to use & and press enter two times
+>> ./sonar.sh start &

@@ -1,0 +1,11 @@
+>>wget https://download.sonatype.com/nexus/3/latest-unix.tar.gz
+>> tar -zxvf latest-unix.tar.gz
+>>cd /nexus-3.15.2-01/bin/
+>>./nexus \run
+To run in Background
+>>./nexus \run &
+to see whether job is running in background and find PID of the job
+>>ps -eaf | grep nexus
+if we need to stop the job kill the job with PID
+>>kill <PID>
+

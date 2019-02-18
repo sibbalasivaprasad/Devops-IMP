@@ -1,0 +1,18 @@
+>>apt-get update
+>>wget http://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.16/bin/apache-tomcat-9.0.16.zip
+>>unzip apache-tomcat-9.0.16.zip
+>>cd /apache-tomcat-9.0.16/bin/
+>>sudo chmod +x *.sh
+To Start the server
+>>./apache-tomcat-9.0.16/bin/startup.sh
+To Stop the server
+>>./apache-tomcat-9.0.16/bin/shutdown.sh
+
+If we want to change the port number
+>> vim /apache-tomcat-9.0.16/conf/server.xml
+#change port number hear.
+ <Connector port="9090" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+
+Ofter changing the port number we need to restart the server.
