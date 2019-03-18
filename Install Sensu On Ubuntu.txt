@@ -1,7 +1,7 @@
 >>wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
 >>sudo dpkg -i erlang-solutions_1.0_all.deb
 >>sudo apt-get update
->>sudo apt-get install erlang
+>>sudo apt-get install erlang -y
 >>sudo apt-get update
 >> erl
 You will be brought into the Erlang shell which resembles:
@@ -17,13 +17,14 @@ Install RabitMQ
 >>echo "deb https://dl.bintray.com/rabbitmq/debian xenial main" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
 >>wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
 >>sudo apt-get update
->>sudo apt-get install rabbitmq-server
+>>sudo apt-get install rabbitmq-server -y
 >>sudo systemctl start rabbitmq-server.service
 >>sudo systemctl enable rabbitmq-server.service
 >>sudo rabbitmqctl status
->>sudo rabbitmqctl add_user admin password
->>sudo rabbitmqctl set_user_tags admin administrator
->>sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
+>>sudo rabbitmqctl add_vhost /sensu
+>>sudo rabbitmqctl add_user sensu password
+>>sudo rabbitmqctl set_user_tags sensu administrator
+>>sudo rabbitmqctl set_permissions -p / sensu ".*" ".*" ".*"
 >>sudo rabbitmq-plugins enable rabbitmq_management
 >>sudo chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/
 >>invoke-rc.d rabbitmq-server status
@@ -32,7 +33,7 @@ Redis Instalation
 ------------------
 sudo apt-get update
 sudo apt-get upgrade
->>sudo apt-get install redis-server
+>>sudo apt-get install redis-server -y
 >>sudo systemctl enable redis-server.service
 >>service redis-server status
 
@@ -71,6 +72,20 @@ Install Sensu:
   }
 }
 
+
+for other client:
+-----------------
+{
+  "rabbitmq": {
+    "host": "10.0.1.6",
+    "port": 5672,
+    "vhost": "/sensu",
+    "user": "sensu",
+    "password": "secret"
+  }
+}
+
+
 >> vim /etc/sensu/conf.d/api.json
 {
   "api": {
@@ -80,12 +95,12 @@ Install Sensu:
   }
 }
 
->>sudo systemctl enable sensu-client
->>sudo systemctl enable sensu-server
->>sudo systemctl enable sensu-api
->>sudo systemctl disable sensu-client
->>sudo systemctl disable sensu-server
->>sudo systemctl disable sensu-api
+sudo systemctl enable sensu-client
+sudo systemctl enable sensu-server
+sudo systemctl enable sensu-api
+sudo systemctl disable sensu-client
+sudo systemctl disable sensu-server
+sudo systemctl disable sensu-api
 >>sudo service sensu-client start
 >>sudo service sensu-client stop
 >>sudo service sensu-server start
@@ -133,6 +148,8 @@ sensu-install -p process-checks
 sensu-install -p load-checks  
 sensu-install -p vmstats  
 sensu-install -p mailer
+Note: If you get any error like ERROR: Failed to build gem native extension.
+install "build-essential" i'e " sudo apt-get install build-essential "
 
 >> vim /etc/sensu/conf.d/check_cpu_linux.json
 {
@@ -211,15 +228,3 @@ Enable the alert's:
 >>sudo service sensu-api restart
 
 
-
-
-if ARGV.first
-  str = ARGV.first
-  str = str.dup.force_encoding("BINARY") if str.respond_to? :force_encoding
-  if str =~ /\A_(.*)_\z/ and Gem::Version.correct?($1) then
-    version = $1
-    ARGV.shift
-  end
-end
-
-load Gem.activate_bin_path('sensu-plugins-cpu-checks', 'check-cpu.rb', version)
