@@ -179,7 +179,7 @@ install "build-essential" i'e " sudo apt-get install build-essential "
 {
      "checks": {
         "check-disk-usage-linux": {
-      "command": "/opt/sensu/embedded/bin/check-disk-usage.rb -w 80 -c 90",
+      "command": "/opt/sensu/embedded/bin/check-disk-usage.rb -w 80 -c 90  -l /snap",
       "interval": 60,
       "occurrences": 5,
       "subscribers": [ "lnx" ]
