@@ -1,1 +1,4 @@
 1.How to run Python Script in jenking under pipeline project?
+1.What is devops in your words?
+ It is a process of delivering more and faster and better applications to meet the ever more pressing 
+ demands of conscious users to reduce the " Time To Market ". in this process 
