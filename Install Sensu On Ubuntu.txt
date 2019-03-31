@@ -186,8 +186,19 @@ install "build-essential" i'e " sudo apt-get install build-essential "
         }
       }
     }
+>>vim /etc/sensu/conf.d/check_load_avg.json
 
-
+{
+      "checks": {
+         "check_load_avg": {
+       "handlers": ["mailer"],
+       "command": "/opt/sensu/embedded/bin/check-load.rb  -c 4,100,100 -w 3,3,3",
+       "interval": 60,
+       "occurrences": 5,
+          "subscribers": [ "lnx" ]
+       }
+         }
+}
 
 Enable the alert's:
 ======================
