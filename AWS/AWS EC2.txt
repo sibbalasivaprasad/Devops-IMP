@@ -1,0 +1,11 @@
+1. AWS EC2 instance is a virtual servers in Amazon’s Elastic Compute Cloud for running applications on the AWS.
+2. EC2 is a service that allows business subscribers to run application programs in the computing environment.
+3. Amazon provides a variety of types of instances with different configurations of CPU, memory, storage, and networking resources to suit user needs.
+4. Instances are created from Amazon Machine Images (AMI). The machine images are like templates that are 
+configured with an operating system and other software, which determine the user’s operating environment.
+5. Users can select an AMI provided by AWS, the user community, or through the AWS Marketplace. 
+6. Users can also create their own AMIs and share them.
+
+
+• Good experience in Amazon Web Services environment and good knowledge of AWS services like 
+Elastic Compute Cloud (EC2), Elastic Load Balancers, S3, Elastic File system, RDS, VPC, Route53, Cloud watch.

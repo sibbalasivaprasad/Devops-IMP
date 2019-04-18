@@ -1,0 +1,13 @@
+A virtual private cloud (VPC) is a virtual network dedicated to your AWS account. 
+It is logically isolated from other virtual networks in the AWS Cloud.
+You can launch your AWS resources, such as Amazon EC2 instances, into your VPC. You can specify an 
+IP address range for the VPC, add subnets, associate security groups, and configure route tables. 
+
+Virtual networking is a technology that facilitates data communication 
+between two or more virtual machines (VM). It is similar to traditional computer networking but 
+provides interconnection between VMs, virtual servers and other related components in a virtualized
+computing environment.
+
+A subnet is a range of IP addresses in your VPC. You can launch AWS resources into a specified subnet. 
+Use a public subnet for resources that must be connected to the internet, 
+and a private subnet for resources that won't be connected to the internet.

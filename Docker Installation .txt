@@ -1,0 +1,16 @@
+Before installing Docker, you first have to ensure that you have the right Linux kernel version running. 
+Docker is only designed to run on Linux kernel version 3.8 and higher.
+>>uname -a
+it will shows 
+    kernel name
+    node name
+    kernel release
+    kernel version
+    machine
+    processor
+    hardware platform
+    operating system
+>>apt-get update
+>>java -version
+>>sudo curl -fsSL get.docker.com | /bin/bash
+>>docker version

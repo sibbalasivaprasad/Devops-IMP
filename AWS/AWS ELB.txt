@@ -1,0 +1,15 @@
+Elastic Load Balancing (ELB) is a load-balancing service for Amazon Web Services (AWS) deployments. 
+ELB automatically distributes incoming application traffic and scales resources to meet traffic demands.
+ELB helps an IT team adjust capacity according to incoming application and network traffic. 
+Users enable ELB within a single availability zone or across multiple availability zones to maintain consistent application performance.
+Historically, load balancing divides the amount of work that a computer has to do among multiple computers so that users, in general, get served faster.
+ELB offers enhanced features including:
+  1. Detection of unhealthy Elastic Compute Cloud (EC2) instances.
+  2. Spreading instances across healthy channels only.
+  3. Flexible cipher support.
+  4. Centralized management of Secure Sockets Layer (SSL) certificates.
+  5. Optional public key authentication. 
+  6. Support for both IPv4 and IPv6.
+ELB offers two different load balancer features, which help provide scalable cloud computing capacity. 
+The Application Load Balancer handles advanced traffic routing from other services or containers at 
+the application level, while the Classic Load Balancer spreads app or network traffic across EC2 instances.
