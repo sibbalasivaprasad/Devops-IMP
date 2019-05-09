@@ -5,7 +5,3 @@
 configured with an operating system and other software, which determine the user’s operating environment.
 5. Users can select an AMI provided by AWS, the user community, or through the AWS Marketplace. 
 6. Users can also create their own AMIs and share them.
-
-
-• Good experience in Amazon Web Services environment and good knowledge of AWS services like 
-Elastic Compute Cloud (EC2), Elastic Load Balancers, S3, Elastic File system, RDS, VPC, Route53, Cloud watch.

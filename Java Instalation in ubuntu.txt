@@ -1,25 +1,12 @@
 >>sudo apt-get update
 >>sudo apt-get install default-jre -y
 >>sudo apt-get install default-jdk -y
->>sudo add-apt-repository ppa:webupd8team/java
+>>sudo add-apt-repository ppa:linuxuprising/java
 >>sudo apt-get update
->>sudo apt-get install oracle-java8-installer -y
-
-....>coppy the java instalation path 
->>sudo update-alternatives --config java
-* 0            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      auto mode
-  1            /usr/lib/jvm/java-6-oracle/jre/bin/java          1         manual mode
-  2            /usr/lib/jvm/java-7-oracle/jre/bin/java          2         manual mode
-  3            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual mode
-  4            /usr/lib/jvm/java-8-oracle/jre/bin/java          3         manual mode
-  5            /usr/lib/jvm/java-9-oracle/bin/java              4         manual mode
-
-
-...> At the end of this file, add the following line, 
-making sure to replace the highlighted path with your own copied path.
+>>sudo apt install oracle-java11-installer
 
 >>sudo vim /etc/environment
-JAVA_HOME="/usr/lib/jvm/java-8-oracle"
+JAVA_HOME="/usr/lib/jvm/java-11-oracle"
 
 >>source /etc/environment
 >>echo $JAVA_HOME
